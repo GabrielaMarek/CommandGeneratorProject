@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<style>
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: justify;
+        margin-top: 20px;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+        text-align: justify;
+    }
+
+    .card-text {
+        font-size: 14px;
+        text-align: justify;
+    }
+
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>About Minecraft Command Generator</h2>
+            <p>The Minecraft Command Generator is a powerful 
+            tool designed to simplify the process of creating 
+            custom commands for the popular sandbox game, Minecraft. 
+            Whether you're a seasoned player or just starting out, 
+            the user-friendly interface allows you to effortlessly 
+            generate commands for various in-game actions, such as giving items to players.</p>
+
+            <p>With this generator, you can specify the type of 
+            command you want to create, the player you want to target, 
+            the item you want to give, and even add enchantments to 
+            items with just a few clicks. The tool provides a convenient 
+            dropdown menu for selecting items and offers the option to 
+            toggle enchantments on and off, providing flexibility and customization to suit your needs.</p>
+
+            <p>Additionally, the generator features real-time feedback, 
+            displaying the generated command instantly for easy copy-pasting 
+            into your Minecraft world. Plus, with the ability to copy commands 
+            directly to your clipboard, sharing and implementing commands has never been easier.</p>
+
+            <p>Whether you're building intricate structures, 
+            setting up custom challenges, or simply enhancing your gameplay 
+            experience, the Minecraft Command Generator is here to streamline 
+            your command creation process and unleash your creativity within the game.</p>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mt-4">
+                <h3 class="card-header">Get in Touch</h3>
+                <div class="card-body">
+                    <p class="card-text">Have questions, feedback, or suggestions? We'd love to hear from you!</p>
+                    @Html.ActionLink("Contact Us", "Contact", "Home", null, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

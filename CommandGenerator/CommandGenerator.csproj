@@ -190,6 +190,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Enchantment\Index.cshtml" />
     <Content Include="Views\Enchantment\Create.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
