@@ -1,33 +1,133 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Minecraft Command Generator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+<div class="container">
+    <section class="command-generator">
+        <h2 class="mt-4">Generate Your Command</h2>
+        <form id="commandForm">
+            <div class="mb-3">
+                <label for="commandType" class="form-label">Command Type:</label>
+                <select id="commandType" name="commandType" class="form-select">
+                    <option value="give">Give</option>
+                </select>
+            </div>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
-</main>
+            <div class="mb-3">
+                <label for="playerName" class="form-label">Player Name:</label>
+                <input type="text" id="playerName" name="playerName" class="form-control" placeholder="Enter player name">
+            </div>
+
+            <div class="mb-3">
+                <label for="item" class="form-label">Item:</label>
+                <select id="item" name="item" class="form-select">
+                    <option value="diamond">Diamond</option>
+                    <option value="gold_ingot">Gold Ingot</option>
+                    <option value="iron_sword">Iron Sword</option>
+                </select>
+            </div>
+
+            <button type="button" id="toggleEnchantments" class="btn btn-secondary mb-3">Toggle Enchantments</button>
+
+            <div id="enchantmentsContainer" style="display: none;">
+                <div class="mb-3">
+                    <label class="form-label">Enchantments:</label>
+                    <div id="enchantmentsList" class="column-view">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control">
+            </div>
+
+            <button type="button" onclick="generateCommand()" class="btn btn-success">Generate Command</button>
+        </form>
+
+        <div id="generatedCommand" class="mt-4"></div>
+        <button type="button" id="copyButton" onclick="copyToClipboard()" class="btn btn-primary" disabled>Copy to Clipboard</button>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#toggleEnchantments').click(function () {
+            $('#enchantmentsContainer').toggle();
+        });
+
+        var enchantments = [
+            { name: 'Protection', id: 'protection' },
+            { name: 'Sharpness', id: 'sharpness' },
+            { name: 'Efficiency', id: 'efficiency' }
+        ];
+
+        var enchantmentsHtml = '';
+        enchantments.forEach(function (enchantment) {
+            enchantmentsHtml += '<div class="form-check">';
+            enchantmentsHtml += '<input class="form-check-input" type="checkbox" id="' + enchantment.id + '" name="enchantments" value="' + enchantment.id + '">';
+            enchantmentsHtml += '<label class="form-check-label" for="' + enchantment.id + '">' + enchantment.name + '</label>';
+            enchantmentsHtml += '<input type="number" class="form-control" id="' + enchantment.id + 'Level" placeholder="Level" min="0" disabled>'; // Added min="0" attribute
+            enchantmentsHtml += '</div>';
+        });
+        $('#enchantmentsList').html(enchantmentsHtml);
+        $('#enchantmentsList').html(enchantmentsHtml);
+
+        $('input[name="enchantments"]').change(function () {
+            var enchantmentId = $(this).val();
+            $('#' + enchantmentId + 'Level').prop('disabled', !$(this).is(':checked'));
+        });
+
+        var clipboard = new ClipboardJS('#copyButton', {
+            text: function () {
+                return $('#generatedCommand').text();
+            }
+        });
+
+        clipboard.on('success', function (e) {
+            console.log('Command copied to clipboard:', e.text);
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function (e) {
+            console.error('Error copying command to clipboard:', e.trigger);
+        });
+    });
+
+    function generateCommand() {
+        var commandType = $('#commandType').val();
+        var playerName = $('#playerName').val();
+        var item = $('#item').val();
+        var quantity = $('#quantity').val();
+
+        var enchantments = [];
+        $('input[name="enchantments"]:checked').each(function () {
+            var enchantment = $(this).val();
+            var level = $('#' + enchantment + 'Level').val();
+            enchantments.push({ enchantment: enchantment, level: level });
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Command/GenerateCommand',
+            data: {
+                commandType: commandType,
+                playerName: playerName,
+                item: item,
+                quantity: quantity,
+                enchantments: enchantments
+            },
+            success: function (data) {
+                $('#generatedCommand').text(data.command);
+                $('#copyButton').removeAttr('disabled');
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+</script>

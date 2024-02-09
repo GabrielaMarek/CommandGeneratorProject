@@ -1,0 +1,48 @@
+﻿@model CommandGenerator.Models.Enchantment
+
+@{
+    ViewBag.Title = "Create Enchantment";
+}
+
+<h2>Create New Enchantment</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Type)
+        @Html.EnumDropDownListFor(model => model.Type, "Select Enchantment Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Type)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Item)
+        @Html.EnumDropDownListFor(model => model.Item, "Select Item Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Item)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Level)
+        @Html.EditorFor(model => model.Level, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Level)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Creator)
+        @Html.EditorFor(model => model.Creator, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Creator)
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -15,7 +15,7 @@ namespace CommandGenerator.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // Customize the model if needed
+
         }
     }
 }
