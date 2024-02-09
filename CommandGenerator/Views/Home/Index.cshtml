@@ -20,13 +20,37 @@
             </div>
 
             <div class="mb-3">
-                <label for="item" class="form-label">Item:</label>
+                <label for="item" class="form-label">Select or Search Item:</label>
                 <select id="item" name="item" class="form-select">
-                    <option value="diamond">Diamond</option>
-                    <option value="gold_ingot">Gold Ingot</option>
-                    <option value="iron_sword">Iron Sword</option>
+                    <option value="search" disabled selected>Search...</option>
+                    <optgroup label="Weapons">
+                        <option value="iron_sword">Iron Sword</option>
+                        <option value="diamond_sword">Diamond Sword</option>
+                        <option value="gold_sword">Gold Sword</option>
+                        <option value="stone_sword">Stone Sword</option>
+                        <option value="wooden_sword">Wooden Sword</option>
+                        <option value="iron_axe">Iron Axe</option>
+                        <option value="diamond_axe">Diamond Axe</option>
+                        <option value="gold_axe">Gold Axe</option>
+                        <option value="stone_axe">Stone Axe</option>
+                        <option value="wooden_axe">Wooden Axe</option>
+                    </optgroup>
+                    <optgroup label="Tools">
+                        <option value="iron_pickaxe">Iron Pickaxe</option>
+                        <option value="diamond_pickaxe">Diamond Pickaxe</option>
+                        <option value="gold_pickaxe">Gold Pickaxe</option>
+                        <option value="stone_pickaxe">Stone Pickaxe</option>
+                        <option value="wooden_pickaxe">Wooden Pickaxe</option>
+                    </optgroup>
+                    <optgroup label="Armor">
+                        <option value="diamond_helmet">Diamond Helmet</option>
+                        <option value="iron_helmet">Iron Helmet</option>
+                        <option value="gold_helmet">Gold Helmet</option>
+                        <option value="leather_helmet">Leather Helmet</option>
+                    </optgroup>
                 </select>
             </div>
+
 
             <button type="button" id="toggleEnchantments" class="btn btn-secondary mb-3">Toggle Enchantments</button>
 
@@ -48,6 +72,8 @@
 
         <div id="generatedCommand" class="mt-4"></div>
         <button type="button" id="copyButton" onclick="copyToClipboard()" class="btn btn-primary" disabled>Copy to Clipboard</button>
+        <div id="copyMessage" class="alert alert-success mt-3" style="display: none;" role="alert"></div>
+
     </section>
 </div>
 
@@ -63,8 +89,30 @@
         var enchantments = [
             { name: 'Protection', id: 'protection' },
             { name: 'Sharpness', id: 'sharpness' },
-            { name: 'Efficiency', id: 'efficiency' }
+            { name: 'Efficiency', id: 'efficiency' },
+            { name: 'Fire Aspect', id: 'fire_aspect' },
+            { name: 'Unbreaking', id: 'unbreaking' },
+            { name: 'Fortune', id: 'fortune' },
+            { name: 'Looting', id: 'looting' },
+            { name: 'Power', id: 'power' },
+            { name: 'Infinity', id: 'infinity' },
+            { name: 'Respiration', id: 'respiration' },
+            { name: 'Aqua Affinity', id: 'aqua_affinity' },
+            { name: 'Bane of Arthropods', id: 'bane_of_arthropods' },
+            { name: 'Blast Protection', id: 'blast_protection' },
+            { name: 'Depth Strider', id: 'depth_strider' },
+            { name: 'Feather Falling', id: 'feather_falling' },
+            { name: 'Flame', id: 'flame' },
+            { name: 'Frost Walker', id: 'frost_walker' },
+            { name: 'Knockback', id: 'knockback' },
+            { name: 'Luck of the Sea', id: 'luck_of_the_sea' },
+            { name: 'Mending', id: 'mending' },
+            { name: 'Projectile Protection', id: 'projectile_protection' },
+            { name: 'Punch', id: 'punch' },
+            { name: 'Silk Touch', id: 'silk_touch' },
+            { name: 'Sweeping Edge', id: 'sweeping_edge' },
         ];
+
 
         var enchantmentsHtml = '';
         enchantments.forEach(function (enchantment) {
@@ -91,6 +139,8 @@
         clipboard.on('success', function (e) {
             console.log('Command copied to clipboard:', e.text);
             e.clearSelection();
+
+            $('#copyMessage').text('Your command copied to clipboard!').fadeIn().delay(2000).fadeOut();
         });
 
         clipboard.on('error', function (e) {
