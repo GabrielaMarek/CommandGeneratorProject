@@ -4,44 +4,139 @@
     ViewBag.Title = "Enchantment Index";
 }
 
-<h2>Enchantment Index</h2>
-
-<p>
-    Welcome to the Enchantment Index! Here, you can view all the enchantments available in our system.
-</p>
-
-<p>
-    @Html.ActionLink("Create New Enchantment", "Create")
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Type</th>
-            <th>Item</th>
-            <th>Level</th>
-            <th>Creator</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                <td>@Html.DisplayFor(modelItem => item.Item)</td>
-                <td>@Html.DisplayFor(modelItem => item.Level)</td>
-                <td>@Html.DisplayFor(modelItem => item.Creator)</td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafc;
         }
-    </tbody>
-</table>
 
-<p>
-    Can't find the enchantment you're looking for? You can always <a href="@Url.Action("Create")">create a new one</a>.
-</p>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3px; 
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #edf2f7;
+            color: #4a5568;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #edf2f7;
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+
+        .actions a:last-child {
+            margin-right: 0;
+        }
+
+        .btn {
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #357bd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enchantment Index</h2>
+        
+        <p>Welcome to the Enchantment Index! Here, you can view all the enchantments available in our system.</p>
+
+        <div class="actions">
+            <a href="@Url.Action("Create")" class="btn">Create New Enchantment</a>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Item</th>
+                        <th>Level</th>
+                        <th>Creator</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Item)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Level)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Creator)</td>
+                            <td class="actions">
+                                <a href="@Url.Action("Edit", new { id = item.Id })">Edit</a>
+                                <a href="@Url.Action("Details", new { id = item.Id })">Details</a>
+                                <a href="@Url.Action("Delete", new { id = item.Id })">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <p>Can't find the enchantment you're looking for? You can always <a href="@Url.Action("Create")">create a new one</a>.</p>
+    </div>
+</body>
+</html>

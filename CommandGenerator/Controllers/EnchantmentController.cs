@@ -97,6 +97,21 @@ namespace CommandGenerator.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Enchantment enchantment = db.Enchantments.Find(id);
+            if (enchantment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(enchantment);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

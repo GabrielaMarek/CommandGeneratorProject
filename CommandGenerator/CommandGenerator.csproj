@@ -204,6 +204,9 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\Enchantment\Edit.cshtml" />
+    <Content Include="Views\Enchantment\Details.cshtml" />
+    <Content Include="Views\Enchantment\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
