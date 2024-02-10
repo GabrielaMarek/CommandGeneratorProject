@@ -19,6 +19,7 @@
                 <input type="text" id="playerName" name="playerName" class="form-control" placeholder="Enter player name">
             </div>
 
+
             <div class="mb-3">
                 <label for="item" class="form-label">Select or Search Item:</label>
                 <select id="item" name="item" class="form-select">
@@ -70,9 +71,14 @@
             <button type="button" onclick="generateCommand()" class="btn btn-success">Generate Command</button>
         </form>
 
-        <div id="generatedCommand" class="mt-4"></div>
-        <button type="button" id="copyButton" onclick="copyToClipboard()" class="btn btn-primary" disabled>Copy to Clipboard</button>
-        <div id="copyMessage" class="alert alert-success mt-3" style="display: none;" role="alert"></div>
+        <div class="container">
+            <section class="command-generator">
+                <div id="generatedCommand" class="mt-4"></div>
+                <button type="button" id="copyButton" onclick="copyToClipboard()" class="btn btn-primary" disabled>Copy to Clipboard</button>
+                <div id="copyMessage" class="alert alert-success mt-3" style="display: none;" role="alert"></div>
+            </section>
+        </div>
+        <a href="@Url.Action("Index", "Comment")" class="btn btn-primary mt-3">View Comments</a>
 
     </section>
 </div>

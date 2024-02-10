@@ -10,6 +10,8 @@ namespace CommandGenerator.DAL
     public class EnchantmentContext : DbContext
     {
         public DbSet<Enchantment> Enchantments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
 
         public EnchantmentContext() : base("name=EnchantmentContext") { }
 

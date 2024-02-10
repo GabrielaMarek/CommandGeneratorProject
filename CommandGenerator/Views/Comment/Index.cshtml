@@ -1,0 +1,34 @@
+﻿@model List<CommandGenerator.Models.Comment>
+
+@foreach (var comment in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@comment.UserName</h5>
+            <p class="card-text">@comment.Text</p>
+            <p class="card-text"><small class="text-muted">@comment.CreatedAt</small></p>
+        </div>
+    </div>
+}
+
+<hr />
+
+<h2>Leave a Comment</h2>
+@using (Html.BeginForm("Create", "Comment"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="UserName">User Name</label>
+        <input type="text" name="UserName" class="form-control" />
+        @Html.ValidationMessage("UserName", "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="Text">Comment</label>
+        <textarea name="Text" class="form-control"></textarea>
+        @Html.ValidationMessage("Text", "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
