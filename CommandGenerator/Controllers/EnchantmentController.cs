@@ -17,8 +17,16 @@ namespace CommandGenerator.Controllers
         // GET: Enchantment
         public ActionResult Index()
         {
-            var enchantments = db.Enchantments.ToList();
-            return View(enchantments);
+            try
+            {
+                var enchantments = db.Enchantments.ToList();
+                return View(enchantments);
+            }
+            catch (Exception ex)
+            {
+
+                return RedirectToAction("Index"); 
+            }
         }
 
         // GET: Enchantment/Create
@@ -32,29 +40,42 @@ namespace CommandGenerator.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Enchantment enchantment)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Enchantments.Add(enchantment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Enchantments.Add(enchantment);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(enchantment);
             }
-
-            return View(enchantment);
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index"); 
+            }
         }
 
         // GET: Enchantment/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Enchantment enchantment = db.Enchantments.Find(id);
+                if (enchantment == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(enchantment);
             }
-            Enchantment enchantment = db.Enchantments.Find(id);
-            if (enchantment == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index"); 
             }
-            return View(enchantment);
         }
 
         // POST: Enchantment/Edit/5
@@ -62,28 +83,42 @@ namespace CommandGenerator.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Enchantment enchantment)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(enchantment).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Entry(enchantment).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(enchantment);
+            }
+            catch (Exception ex)
+            {
                 return RedirectToAction("Index");
             }
-            return View(enchantment);
         }
 
         // GET: Enchantment/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Enchantment enchantment = db.Enchantments.Find(id);
+                if (enchantment == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(enchantment);
             }
-            Enchantment enchantment = db.Enchantments.Find(id);
-            if (enchantment == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index"); 
             }
-            return View(enchantment);
         }
 
         // POST: Enchantment/Delete/5
@@ -91,25 +126,40 @@ namespace CommandGenerator.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Enchantment enchantment = db.Enchantments.Find(id);
-            db.Enchantments.Remove(enchantment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Enchantment enchantment = db.Enchantments.Find(id);
+                db.Enchantments.Remove(enchantment);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                
+                return RedirectToAction("Index"); 
+            }
         }
-
 
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Enchantment enchantment = db.Enchantments.Find(id);
+                if (enchantment == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(enchantment);
             }
-            Enchantment enchantment = db.Enchantments.Find(id);
-            if (enchantment == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+
+                return RedirectToAction("Index"); 
             }
-            return View(enchantment);
         }
 
         protected override void Dispose(bool disposing)

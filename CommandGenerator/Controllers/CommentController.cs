@@ -15,24 +15,37 @@ namespace CommandGenerator.Controllers
         // GET: Comment
         public ActionResult Index()
         {
-            var comments = db.Comments.ToList();
-            return View(comments);
+            try
+            {
+                var comments = db.Comments.ToList();
+                return View(comments);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index"); 
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Comment comment)
         {
-            if (ModelState.IsValid)
+            try
             {
-                comment.CreatedAt = DateTime.Now;
-                db.Comments.Add(comment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    comment.CreatedAt = DateTime.Now;
+                    db.Comments.Add(comment);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(comment);
+                return View(comment);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index"); 
+            }
         }
     }
-
 }

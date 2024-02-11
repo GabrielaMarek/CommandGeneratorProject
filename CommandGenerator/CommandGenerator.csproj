@@ -202,7 +202,6 @@
     <Content Include="Views\Enchantment\Index.cshtml" />
     <Content Include="Views\Enchantment\Create.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
     <Content Include="Views\Enchantment\Edit.cshtml" />
     <Content Include="Views\Enchantment\Details.cshtml" />
