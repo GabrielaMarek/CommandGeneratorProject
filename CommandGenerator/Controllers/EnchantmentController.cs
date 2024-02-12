@@ -1,5 +1,6 @@
 ﻿using CommandGenerator.DAL;
 using CommandGenerator.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,25 +16,31 @@ namespace CommandGenerator.Controllers
         private EnchantmentContext db = new EnchantmentContext();
 
         // GET: Enchantment
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString, int? page)
         {
-            ViewBag.NameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TypeSortParam = string.IsNullOrEmpty(sortOrder) ? "type_desc" : "";
+            ViewBag.ItemSortParam = sortOrder == "Item" ? "item_desc" : "Item";
             ViewBag.LevelSortParam = sortOrder == "Level" ? "level_desc" : "Level";
             ViewBag.CreatorSortParam = sortOrder == "Creator" ? "creator_desc" : "Creator";
 
             var enchantments = db.Enchantments.AsQueryable();
 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                enchantments = enchantments.Where(e => e.Type.ToString().Contains(searchString) || e.Item.ToString().Contains(searchString) || e.Creator.Contains(searchString));
+            }
+
             switch (sortOrder)
             {
-                case "name_desc":
-                    enchantments = enchantments.OrderByDescending(e => e.Type);
-                    break;
-                case "Type":
-                    enchantments = enchantments.OrderBy(e => e.Type);
-                    break;
                 case "type_desc":
                     enchantments = enchantments.OrderByDescending(e => e.Type);
+                    break;
+                case "Item":
+                    enchantments = enchantments.OrderBy(e => e.Item);
+                    break;
+                case "item_desc":
+                    enchantments = enchantments.OrderByDescending(e => e.Item);
                     break;
                 case "Level":
                     enchantments = enchantments.OrderBy(e => e.Level);
@@ -52,7 +59,9 @@ namespace CommandGenerator.Controllers
                     break;
             }
 
-            return View(enchantments.ToList());
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(enchantments.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Enchantment/Create

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<CommandGenerator.Models.Enchantment>
+﻿@model PagedList.IPagedList<CommandGenerator.Models.Enchantment>
+@using PagedList.Mvc
+
 
 @{
     ViewBag.Title = "Enchantment Index";
@@ -11,6 +13,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <style>
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+            .pagination a {
+                display: inline-block;
+                padding: 6px 12px;
+                margin: 2px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                background-color: #fff;
+                color: #333;
+                text-decoration: none;
+            }
+
+                .pagination a:hover {
+                    background-color: #f5f5f5;
+                }
+
+            .pagination .disabled a {
+                pointer-events: none;
+                color: #999;
+                background-color: #ddd;
+            }
+
+            .pagination .active a {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -21,7 +55,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 3px; 
+            padding: 3px;
         }
 
         h2 {
@@ -77,9 +111,9 @@
             margin-right: 10px;
         }
 
-        .actions a:last-child {
-            margin-right: 0;
-        }
+            .actions a:last-child {
+                margin-right: 10px; 
+            }
 
         .btn {
             background-color: #4a90e2;
@@ -89,23 +123,33 @@
             border-radius: 0.25rem;
             text-decoration: none;
             transition: background-color 0.3s ease;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
-        .btn:hover {
-            background-color: #357bd8;
-        }
+            .btn:hover {
+                background-color: #357bd8;
+            }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Enchantment Index</h2>
-        
+
         <p>Welcome to the Enchantment Index! Here, you can view all the enchantments available in our system.</p>
 
         <div class="actions">
             <a href="@Url.Action("Create")" class="btn">Create New Enchantment</a>
         </div>
-
+        <div style="margin-bottom: 20px;">
+            @using (Html.BeginForm("Index", "Enchantment", FormMethod.Get))
+            {
+                <div class="form-group">
+                    @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Search by type, item, or creator" })
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            }
+        </div>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
@@ -142,9 +186,11 @@
                         </tr>
                     }
                 </tbody>
+                <div class="pagination">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))
+                </div>
             </table>
         </div>
-
         <p>Can't find the enchantment you're looking for? You can always <a href="@Url.Action("Create")">create a new one</a>.</p>
     </div>
 </body>
