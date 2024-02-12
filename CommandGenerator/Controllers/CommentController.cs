@@ -40,7 +40,8 @@ namespace CommandGenerator.Controllers
                     return RedirectToAction("Index");
                 }
 
-                return View(comment);
+                return RedirectToAction("Index");
+
             }
             catch (Exception ex)
             {
