@@ -164,26 +164,21 @@
         $('input[name="enchantments"]:checked').each(function () {
             var enchantment = $(this).val();
             var level = $('#' + enchantment + 'Level').val();
-            enchantments.push({ enchantment: enchantment, level: level });
+            enchantments.push({ id: enchantment, lvl: level });
         });
 
-        $.ajax({
-            type: 'POST',
-            url: '/Command/GenerateCommand',
-            data: {
-                commandType: commandType,
-                playerName: playerName,
-                item: item,
-                quantity: quantity,
-                enchantments: enchantments
-            },
-            success: function (data) {
-                $('#generatedCommand').text(data.command);
-                $('#copyButton').removeAttr('disabled');
-            },
-            error: function (error) {
-                console.log(error);
+        var command = '/give ' + playerName + ' ' + item + '{Enchantments:[';
+        enchantments.forEach(function (enchantment, index) {
+            command += '{id:' + enchantment.id + ',lvl:' + enchantment.lvl + '}';
+            if (index < enchantments.length - 1) {
+                command += ',';
             }
         });
+        command += ']} ' + quantity;
+
+        $('#generatedCommand').text(command);
+        $('#copyButton').removeAttr('disabled');
+
     }
+    
 </script>
