@@ -110,13 +110,22 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Type</th>
-                        <th>Item</th>
-                        <th>Level</th>
-                        <th>Creator</th>
+                        <th>
+                            @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParam })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Item", "Index", new { sortOrder = ViewBag.ItemSortParam })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Level", "Index", new { sortOrder = ViewBag.LevelSortParam })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Creator", "Index", new { sortOrder = ViewBag.CreatorSortParam })
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @foreach (var item in Model)
                     {

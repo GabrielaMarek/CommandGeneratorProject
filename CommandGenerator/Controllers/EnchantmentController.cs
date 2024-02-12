@@ -15,18 +15,44 @@ namespace CommandGenerator.Controllers
         private EnchantmentContext db = new EnchantmentContext();
 
         // GET: Enchantment
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            try
-            {
-                var enchantments = db.Enchantments.ToList();
-                return View(enchantments);
-            }
-            catch (Exception ex)
-            {
+            ViewBag.NameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
+            ViewBag.LevelSortParam = sortOrder == "Level" ? "level_desc" : "Level";
+            ViewBag.CreatorSortParam = sortOrder == "Creator" ? "creator_desc" : "Creator";
 
-                return RedirectToAction("Index"); 
+            var enchantments = db.Enchantments.AsQueryable();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    enchantments = enchantments.OrderByDescending(e => e.Type);
+                    break;
+                case "Type":
+                    enchantments = enchantments.OrderBy(e => e.Type);
+                    break;
+                case "type_desc":
+                    enchantments = enchantments.OrderByDescending(e => e.Type);
+                    break;
+                case "Level":
+                    enchantments = enchantments.OrderBy(e => e.Level);
+                    break;
+                case "level_desc":
+                    enchantments = enchantments.OrderByDescending(e => e.Level);
+                    break;
+                case "Creator":
+                    enchantments = enchantments.OrderBy(e => e.Creator);
+                    break;
+                case "creator_desc":
+                    enchantments = enchantments.OrderByDescending(e => e.Creator);
+                    break;
+                default:
+                    enchantments = enchantments.OrderBy(e => e.Type);
+                    break;
             }
+
+            return View(enchantments.ToList());
         }
 
         // GET: Enchantment/Create
