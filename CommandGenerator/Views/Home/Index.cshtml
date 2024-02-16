@@ -122,12 +122,13 @@
 
         var enchantmentsHtml = '';
         enchantments.forEach(function (enchantment) {
-            enchantmentsHtml += '<div class="form-check">';
+            enchantmentsHtml += '<div class="form-check enchantment-item">';
             enchantmentsHtml += '<input class="form-check-input" type="checkbox" id="' + enchantment.id + '" name="enchantments" value="' + enchantment.id + '">';
             enchantmentsHtml += '<label class="form-check-label" for="' + enchantment.id + '">' + enchantment.name + '</label>';
-            enchantmentsHtml += '<input type="number" class="form-control" id="' + enchantment.id + 'Level" placeholder="Level" min="0" disabled>'; // Added min="0" attribute
-            enchantmentsHtml += '</div>';
+            enchantmentsHtml += '<input type="number" class="form-control" id="' + enchantment.id + 'Level" placeholder="Level" min="0" disabled>';
+            enchantmentsHtml += '</div>'; 
         });
+
         $('#enchantmentsList').html(enchantmentsHtml);
         $('#enchantmentsList').html(enchantmentsHtml);
 
