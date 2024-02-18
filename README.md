@@ -19,7 +19,7 @@ This project is a web application that allows users to generate Minecraft comman
 
 1. **Clone the Repository**: Clone the repository to your local machine using the following command:
 ```bash
-git clone https://github.com/yourusername/your-repository.git
+git clone https://github.com/GabrielaMarek/CommandGeneratorProject
 ```
 
 2. **Database Configuration**: Update the connection string in `Web.config` file to point to your database server.
